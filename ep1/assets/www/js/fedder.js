@@ -7,7 +7,7 @@ var fedder = {
 
 		feed.load(function(result) {
 			if (!result.error) {
-				$("ul").append('<li data-role="divider" data-theme="b">'+result.feed.title+'</li>');
+				$("ul").append('<li data-role="divider" data-theme="b">'+result.feed.title+'<span class="ui-li-count">'+result.feed.entries.length+'</span></li>');
 				console.log(result.feed);
 				for (var i = 0; i < result.feed.entries.length; i++) {
 					var entradaDoFeed = result.feed.entries[i];
