@@ -36,8 +36,9 @@
 			google.load("feeds", "1");
 
 			function loadFeeds() {
-			  var feed = new google.feeds.Feed("http://www.usp.br/espacoaberto/?feed=rss2");
+			  var feed = new google.feeds.Feed("http://www.imprensa.usp.br/?feed=rss2");
 			  feed.includeHistoricalEntries();
+			  feed.setNumEntries(10);
 
 			  feed.load(function(result) {
 				if (!result.error) {
