@@ -10,20 +10,16 @@
 	</head>
 	<body>
 		<div data-role="page">  
-
 			<header data-role="header">  
 				<h1>USP RSS Feed</h1>
 			</header> 
-
 			<div data-role="content">
 				<ul data-role="listview" data-inset="true" data-theme="b"> 
 				</ul>
 			</div>  
-
 			<footer data-role="footer">  
 				<h1>USP RSS Feed</h1>
 			</footer>  
-
 		</div>
 		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 		<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
@@ -31,30 +27,6 @@
 		<script type="text/javascript" src="js/jquery.zrssfeed.min.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-		<script type="text/javascript">
-			app.initialize();
-			google.load("feeds", "1");
-
-			function loadFeeds() {
-			  var feed = new google.feeds.Feed("http://www.imprensa.usp.br/?feed=rss2");
-			  feed.includeHistoricalEntries();
-			  feed.setNumEntries(10);
-
-			  feed.load(function(result) {
-				if (!result.error) {
-					$("ul").append('<li data-role="divider" data-theme="b">'+result.feed.title+'</li>');
-					console.log(result.feed);
-					for (var i = 0; i < result.feed.entries.length; i++) {
-						var entry = result.feed.entries[i];
-						$("ul").append('<li><a href="'+entry.link+'"><h2>'+entry.title+'</h2><p>'+entry.contentSnippet+'</p></a></li>');
-					}
-				}
-				$('ul').listview('refresh');
-			  });
-
-			}
-
-			google.setOnLoadCallback(loadFeeds);
-		</script>
+		<script type="text/javascript" src="js/fedder.js"></script>
 	</body>
 </html>
