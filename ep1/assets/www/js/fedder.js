@@ -13,13 +13,18 @@ var fedder = {
 					var entradaDoFeed = result.feed.entries[i];
 					var dataPublicacao = entradaDoFeed.publishedDate;
 					$("ul").append('<li><a href="'+entradaDoFeed.link+'"><h2>'+entradaDoFeed.title+'</h2><p>'+entradaDoFeed.contentSnippet+'</p><p class="ui-li-aside"><strong>Publicação: '+dataPublicacao.substring(0, dataPublicacao.length - 7)+'</strong>PM</p></a></li>');
+					fedder.store.addNewFeed(result.feed.feedUrl, entradaDoFeed);
 				}
 			}
 			$('ul').listview('refresh');
+			fedder.store.findByFeedURL("http://www.imprensa.usp.br/?feed=rss2", function(feed) {
+				console.log(feed);
+			});
 		});
 	},
 
 	initialize: function() {
+		this.store = new Storage();
 		google.load("feeds", "1");
 		google.setOnLoadCallback(fedder.loadFeeds);
 	}
