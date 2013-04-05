@@ -9,7 +9,8 @@ var fedder = {
 	},
 
 	loadFeeds: function() {
-		if (fedder.checkConnection) {
+		console.log(fedder.checkConnection());
+		if (fedder.checkConnection()) {
 			fedder.updateFeeds();
 			fedder.removeFeedsOnHtml();
 			fedder.putFeedsOnHtml();
@@ -67,3 +68,4 @@ app.initialize();
 var feedURL = "http://www.imprensa.usp.br/?feed=rss2";
 fedder.initialize();
 window.setInterval(fedder.loadFeeds,30000);
+window.setInterval(fedder.drawFeeds,1000);
