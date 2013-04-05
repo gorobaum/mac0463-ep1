@@ -40,7 +40,6 @@ var Storage = function(successCallback, errorCallback) {
     this.addNewFeed = function(feedURL, newFeed) {
         this.db.transaction(
             function(tx) {
-
                 var sql = "INSERT OR REPLACE INTO rssfeed " +
                     "(feedURL, link, title, contentSnippet, publishedDate, categorias) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
@@ -52,6 +51,23 @@ var Storage = function(successCallback, errorCallback) {
                             function(tx, error) {
                                 alert('INSERT error: ' + error.message);
                             });
+            },
+            function(error) {
+                alert("Transaction Error: " + error.message);
+            }
+        );
+    }
+
+    this.findByTitle = function(feed, callback) {
+        this.db.transaction(
+            function(tx) {
+                var sql = "SELECT * " +
+                    "FROM rssfeed " +
+                    "WHERE title LIKE ? " +
+                    "ORDER BY id";
+                tx.executeSql(sql, ['%' + feed.title + '%'], function(tx, results) {
+                    callback(feed, results.rows.length === 1 ? true : false);
+                });
             },
             function(error) {
                 alert("Transaction Error: " + error.message);
