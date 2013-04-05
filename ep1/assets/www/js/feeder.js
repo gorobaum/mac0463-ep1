@@ -1,4 +1,4 @@
-var fedder = {
+var feeder = {
 
 	checkConnection: function() {
 		var networkState = navigator.connection.type;
@@ -9,7 +9,7 @@ var fedder = {
 	},
 
 	loadFeeds: function() {
-		fedder.updateFeeds();
+		feeder.updateFeeds();
 	},
 
 	updateFeeds: function() {
@@ -21,17 +21,17 @@ var fedder = {
 				for (var i = 0; i < result.feed.entries.length; i++) {
 					var entradaDoFeed = result.feed.entries[i];
 					var dataPublicacao = entradaDoFeed.publishedDate;
-					fedder.store.findByTitle(entradaDoFeed, 
+					feeder.store.findByTitle(entradaDoFeed, 
 						function(entradaDoFeed, taNoBanco) {
 							if (!taNoBanco) {
-								fedder.store.addNewFeed(feedURL, entradaDoFeed);
+								feeder.store.addNewFeed(feedURL, entradaDoFeed);
 							}
 						}
 					);
 				}
 			}
-			fedder.removeFeedsOnHtml();
-			fedder.putFeedsOnHtml();
+			feeder.removeFeedsOnHtml();
+			feeder.putFeedsOnHtml();
 		});
 	},
 
@@ -41,7 +41,7 @@ var fedder = {
 	},
 
 	putFeedsOnHtml: function() {
-		fedder.store.findByFeedURL(feedURL, function(result) {
+		feeder.store.findByFeedURL(feedURL, function(result) {
 			$("ul").append('<li data-role="divider" data-theme="b">'+result[0].feedURL+'<span class="ui-li-count">'+result.length+'</span></li>');
 			console.log(result);
 			for (var i = 0; i < result.length; i++) {
@@ -56,11 +56,11 @@ var fedder = {
 	initialize: function() {
 		this.store = new Storage();
 		google.load("feeds", "1");
-		google.setOnLoadCallback(fedder.loadFeeds);
+		google.setOnLoadCallback(feeder.loadFeeds);
 	}
 };
 
 var feedURL = "http://www.imprensa.usp.br/?feed=rss2";
 app.initialize();
-fedder.initialize();
-window.setInterval(fedder.loadFeeds,30000);
+feeder.initialize();
+window.setInterval(feeder.loadFeeds,30000);
