@@ -9,19 +9,13 @@ var fedder = {
 	},
 
 	loadFeeds: function() {
-		console.log(fedder.checkConnection());
-		if (fedder.checkConnection()) {
-			fedder.updateFeeds();
-			fedder.removeFeedsOnHtml();
-			fedder.putFeedsOnHtml();
-		}
+		fedder.updateFeeds();
 	},
 
 	updateFeeds: function() {
 		var feed = new google.feeds.Feed(feedURL);
 		feed.includeHistoricalEntries();
 		feed.setNumEntries(10);
-
 		feed.load(function(result) {
 			if (!result.error) {
 				for (var i = 0; i < result.feed.entries.length; i++) {
@@ -36,6 +30,8 @@ var fedder = {
 					);
 				}
 			}
+			fedder.removeFeedsOnHtml();
+			fedder.putFeedsOnHtml();
 		});
 	},
 
@@ -60,12 +56,11 @@ var fedder = {
 	initialize: function() {
 		this.store = new Storage();
 		google.load("feeds", "1");
-		google.setOnLoadCallback(fedder.updateFeeds);
+		google.setOnLoadCallback(fedder.loadFeeds);
 	}
 };
 
-app.initialize();
 var feedURL = "http://www.imprensa.usp.br/?feed=rss2";
+app.initialize();
 fedder.initialize();
 window.setInterval(fedder.loadFeeds,30000);
-window.setInterval(fedder.drawFeeds,1000);
