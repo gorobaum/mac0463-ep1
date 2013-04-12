@@ -1,4 +1,5 @@
-var fedder = {
+var feeder = {
+
 	checkConnection: function() {
 		var networkState = navigator.connection.type;
 		if (networkState == Connection.NONE) {
@@ -12,6 +13,10 @@ var fedder = {
 		this.updateFeeds();
 	},
 
+	loadFeeds: function() {
+		feeder.updateFeeds();
+	},
+
 	updateFeeds: function() {
 		var feed = new google.feeds.Feed(feedURL);
 		feed.includeHistoricalEntries();
@@ -21,14 +26,14 @@ var fedder = {
 				for (var i = 0; i < result.feed.entries.length; i++) {
 					var entradaDoFeed = result.feed.entries[i];
 					var dataPublicacao = entradaDoFeed.publishedDate;
-					fedder.store.findByTitle(entradaDoFeed, result.feed.entries.length, i, 
+					feeder.store.findByTitle(entradaDoFeed, result.feed.entries.length, i, 
 						function(entradaDoFeed, numeroDeFeeds, feedAtual, taNoBanco) {
 							if (!taNoBanco) {
-								fedder.store.addNewFeed(feedURL, entradaDoFeed);
+								feeder.store.addNewFeed(feedURL, entradaDoFeed);
 							}
 							if (numeroDeFeeds == (feedAtual+1)) {
-								fedder.removeFeedsOnHtml();
-								fedder.putFeedsOnHtml();
+								feeder.removeFeedsOnHtml();
+								feeder.putFeedsOnHtml();
 							}
 						}
 					);
@@ -43,7 +48,7 @@ var fedder = {
 	},
 
 	putFeedsOnHtml: function() {
-		fedder.store.findByFeedURL(feedURL, function(result) {
+		feeder.store.findByFeedURL(feedURL, function(result) {
 			$("ul").append('<li data-role="divider" data-theme="b">'+result[0].feedURL+'<span class="ui-li-count">'+result.length+'</span></li>');
 			console.log(result);
 			for (var i = 0; i < result.length; i++) {
@@ -58,12 +63,12 @@ var fedder = {
 	initialize: function() {
 		this.store = new Storage();
 		google.load("feeds", "1");
-		google.setOnLoadCallback(fedder.updateFeeds);
+		google.setOnLoadCallback(feeder.loadFeeds);
 	}
 };
 
-var feedsPuxados = 10;	
+var feedsPuxados = 10;
 var feedURL = "http://www.imprensa.usp.br/?feed=rss2";
 app.initialize();
-fedder.initialize();
-window.setInterval(fedder.updateFeeds,30000);
+feeder.initialize();
+window.setInterval(feeder.loadFeeds,30000);
