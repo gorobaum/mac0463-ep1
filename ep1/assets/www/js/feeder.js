@@ -24,6 +24,7 @@ var feeder = {
 		feed.load(function(result) {
 			if (!result.error) {
 				tituloDoFeed = result.feed.title;
+				console.log(result.feed);
 				for (var i = 0; i < result.feed.entries.length; i++) {
 					var entradaDoFeed = result.feed.entries[i];
 					var dataPublicacao = entradaDoFeed.publishedDate;
@@ -53,7 +54,6 @@ var feeder = {
 			$("ul").append('<li data-role="divider" data-theme="b">'+tituloDoFeed+'<span class="ui-li-count">'+result.length+'</span></li>');
 			for (var i = 0; i < result.length; i++) {
 				var entradaDoFeed = result[i];
-				console.log(entradaDoFeed);
 				var dataPublicacao = entradaDoFeed.publishedDate;
 				$("ul").append('<li><a href="'+entradaDoFeed.link+'"><h2>'+entradaDoFeed.title+'</h2><p>'+entradaDoFeed.contentSnippet+'</p><p class="ui-li-aside"><strong>Publicação: '+dataPublicacao.substring(0, dataPublicacao.length - 6)+'</strong>PM</p></a></li>');
 			}
@@ -70,7 +70,7 @@ var feeder = {
 
 var feedsPuxados = 10;
 var tituloDoFeed;
-var feedURL = "http://www.eventos.usp.br/?feed=rss";
+var feedURL = "http://www.imprensa.usp.br/?feed=rss2";
 app.initialize();
 feeder.initialize();
 window.setInterval(feeder.loadFeeds,30000);
