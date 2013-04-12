@@ -8,11 +8,9 @@ var Storage = function(successCallback, errorCallback) {
                     self.createTable(tx);
                 },
                 function(error) {
-                    console.log('Transaction error: ' + error);
                     if (errorCallback) errorCallback();
                 },
                 function() {
-                    console.log('Transaction success');
                     if (successCallback) successCallback();
                 }
         )
@@ -30,7 +28,6 @@ var Storage = function(successCallback, errorCallback) {
             "categorias VARCHAR(50))";
         tx.executeSql(sql, null,
                 function() {
-                    console.log('Create table success');
                 },
                 function(tx, error) {
                     alert('Create table error: ' + error.message);
@@ -46,7 +43,6 @@ var Storage = function(successCallback, errorCallback) {
 
                 tx.executeSql(sql, [feedURL, newFeed.link, newFeed.title, newFeed.contentSnippet, newFeed.publishedDate, newFeed.categorias],
                             function() {
-                                console.log('INSERT success');
                             },
                             function(tx, error) {
                                 alert('INSERT error: ' + error.message);
