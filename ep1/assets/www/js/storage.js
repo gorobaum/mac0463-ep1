@@ -58,7 +58,7 @@ var Storage = function(successCallback, errorCallback) {
         );
     }
 
-    this.findByTitle = function(feed, callback) {
+    this.findByTitle = function(feed, numeroDeFeeds, feedAtual, callback) {
         this.db.transaction(
             function(tx) {
                 var sql = "SELECT * " +
@@ -66,7 +66,7 @@ var Storage = function(successCallback, errorCallback) {
                     "WHERE title LIKE ? " +
                     "ORDER BY id";
                 tx.executeSql(sql, ['%' + feed.title + '%'], function(tx, results) {
-                    callback(feed, results.rows.length === 1 ? true : false);
+                    callback(feed, numeroDeFeeds, feedAtual, results.rows.length === 1 ? true : false);
                 });
             },
             function(error) {

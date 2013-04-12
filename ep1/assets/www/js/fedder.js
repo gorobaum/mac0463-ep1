@@ -1,5 +1,4 @@
 var fedder = {
-
 	checkConnection: function() {
 		var networkState = navigator.connection.type;
 		if (networkState == Connection.NONE) {
@@ -8,30 +7,33 @@ var fedder = {
 		return true;
 	},
 
-	loadFeeds: function() {
-		fedder.updateFeeds();
+	loadMoreFeeds: function() {
+		feedsPuxados += 10;
+		this.updateFeeds();
 	},
 
 	updateFeeds: function() {
 		var feed = new google.feeds.Feed(feedURL);
 		feed.includeHistoricalEntries();
-		feed.setNumEntries(10);
+		feed.setNumEntries(feedsPuxados);
 		feed.load(function(result) {
 			if (!result.error) {
 				for (var i = 0; i < result.feed.entries.length; i++) {
 					var entradaDoFeed = result.feed.entries[i];
 					var dataPublicacao = entradaDoFeed.publishedDate;
-					fedder.store.findByTitle(entradaDoFeed, 
-						function(entradaDoFeed, taNoBanco) {
+					fedder.store.findByTitle(entradaDoFeed, result.feed.entries.length, i, 
+						function(entradaDoFeed, numeroDeFeeds, feedAtual, taNoBanco) {
 							if (!taNoBanco) {
 								fedder.store.addNewFeed(feedURL, entradaDoFeed);
+							}
+							if (numeroDeFeeds == (feedAtual+1)) {
+								fedder.removeFeedsOnHtml();
+								fedder.putFeedsOnHtml();
 							}
 						}
 					);
 				}
 			}
-			fedder.removeFeedsOnHtml();
-			fedder.putFeedsOnHtml();
 		});
 	},
 
@@ -56,11 +58,12 @@ var fedder = {
 	initialize: function() {
 		this.store = new Storage();
 		google.load("feeds", "1");
-		google.setOnLoadCallback(fedder.loadFeeds);
+		google.setOnLoadCallback(fedder.updateFeeds);
 	}
 };
 
+var feedsPuxados = 10;	
 var feedURL = "http://www.imprensa.usp.br/?feed=rss2";
 app.initialize();
 fedder.initialize();
-window.setInterval(fedder.loadFeeds,30000);
+window.setInterval(fedder.updateFeeds,30000);
