@@ -10,33 +10,41 @@
 	</head>
 	<body>
 		<div data-role="page">  
+			<div data-role="panel" id="mypanel" data-position="left" data-display="overlay">
+			    <fieldset data-role="collapsible" data-theme="a" data-content-theme="d" data-mini="true">
+			        <legend>Categorias</legend>
+			        	<form>
+			        		<label>
+						        <input type="checkbox" name="checkbox-0 ">Cultura e artes
+						    </label>
+						    <label>
+						        <input type="checkbox" name="checkbox-0 ">Esportes
+						    </label>
+						    <label>
+						        <input type="checkbox" name="checkbox-0 ">Evento científico - biológicas
+						    </label>
+						    <label>
+						        <input type="checkbox" name="checkbox-0 ">Evento científico - exatas
+						    </label>
+						    <label>
+						        <input type="checkbox" name="checkbox-0 ">Evento científico - humanas
+						    </label>
+						    <label>
+						        <input type="checkbox" name="checkbox-0 ">Institucional
+						    </label>
+						    <label>
+						        <input type="checkbox" name="checkbox-0 ">Outros
+						    </label>
+						</form>
+			    </fieldset>
+			    <label for="slider-10">Número padrão de feeds:</label>
+			    <input type="range" name="slider-10" id="slider-10" min="0" max="50" step="5" value="10">
+			    <a href="#my-header" data-rel="close" type="button" data-mini="true">Close panel</a>
+			</div><!-- /panel -->
 			<header data-role="header">
 				<a href="#" data-role="button" data-mini="true" data-inline="true" data-icon="plus" data-theme="b" onclick="feeder.loadMoreFeeds()">Feeds</a>
 				<h1>USP RSS Feed</h1>
-				<form>
-				    <fieldset data-role="collapsible" data-theme="a" data-content-theme="d" data-mini="true">
-				        <legend>Catigorias</legend>
-				        <form>
-						    <div data-role="fieldcontain">
-						        <label for="flip-6">Catiguria A:</label>
-						        <select name="flip-6" id="flip-6" data-role="slider" data-mini="true">
-						            <option value="off">Off</option>
-						            <option value="on">On</option>
-						        </select>
-						        <label for="flip-1">Catiguria B</label>
-							    <select name="flip-1" id="flip-1" data-role="slider" data-mini="true">
-							        <option value="off">Off</option>
-							        <option value="on">On</option>
-							    </select>
-							    <label for="flip-1">Catiguria C</label>
-							    <select name="flip-1" id="flip-1" data-role="slider" data-mini="true">
-							        <option value="off">Off</option>
-							        <option value="on">On</option>
-							    </select>
-						    </div>
-						</form>
-				    </fieldset>
-				</form>
+				<a href="#mypanel" data-role="button" data-mini="true" data-inline="true" data-icon="plus" data-theme="b">Configurações</a>
 			</header> 
 			<div data-role="content">
 				<ul id="table-feed" data-role="listview" data-filter="true" data-filter-placeholder="Buscar pelos feeds..." data-theme="e"> 

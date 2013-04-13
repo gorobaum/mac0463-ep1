@@ -51,7 +51,7 @@ var feeder = {
 
 	putFeedsOnHtml: function() {
 		feeder.store.findByFeedURL(feedURL, function(result) {
-			$("ul").append('<li data-role="divider" data-theme="b">'+tituloDoFeed+'<span class="ui-li-count">'+result.length+'</span></li>');
+			$("ul").append('<li data-role="divider" data-theme="b">'+tituloDoFeed.substring(0, 39)+'<span class="ui-li-count">'+result.length+'</span></li>');
 			for (var i = 0; i < result.length; i++) {
 				var entradaDoFeed = result[i];
 				var dataPublicacao = entradaDoFeed.publishedDate;
@@ -70,7 +70,7 @@ var feeder = {
 
 var feedsPuxados = 10;
 var tituloDoFeed;
-var feedURL = "http://www.imprensa.usp.br/?feed=rss2";
+var feedURL = "http://www.eventos.usp.br/?event-types=cultura-e-artes,esportes,evento-cientifico,evento-cientifico-biologicas,evento-cientifico-exatas,evento-cientifico-humanas,institucional,outros&feed=rss";
 app.initialize();
 feeder.initialize();
 window.setInterval(feeder.loadFeeds,30000);
