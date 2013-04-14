@@ -15,8 +15,10 @@ var feeder = {
 
 	loadFeeds: function() {
 		feeder.store.refreshConfigs(function(categoriasSalvas) {
+			var temConfig = false;
 			for (i = 0; i < categoriasSalvas.length; i++) {
 				if (categoriasSalvas[i].value == 1) {
+					temConfig = true;
 					$("#"+mapFeedsURL[categoriasSalvas[i].name]).show();
 					feedURL = "http://www.eventos.usp.br/?event-types="
 								+ mapFeedsURL[categoriasSalvas[i].name]
@@ -24,6 +26,15 @@ var feeder = {
 					feeder.updateFeeds();
 				} else {
 					$("#"+mapFeedsURL[categoriasSalvas[i].name]).hide();
+				}
+			}
+			if (!temConfig) {
+				for (i = 0; i < listaDeCheckbox.length; i++) {
+					$("#"+mapFeedsURL[mapIdsFeeds[listaDeCheckbox[i]]]).show();
+					feedURL = "http://www.eventos.usp.br/?event-types="
+					       + mapFeedsURL[mapIdsFeeds[listaDeCheckbox[i]]]
+					       + "&feed=rss";
+					feeder.updateFeeds();
 				}
 			}
 		});
@@ -67,7 +78,6 @@ var feeder = {
 				var entradaDoFeed = result[i];
 				var dataPublicacao = entradaDoFeed.publishedDate;
 				var string = ".categoria."+mapFeedsURL[categoriaDoFeed];
-				console.log(string);
 				$(string).append('<li><a href="'+entradaDoFeed.link+'"><h2>'+entradaDoFeed.title+'</h2><p>'+entradaDoFeed.contentSnippet+'</p><p class="ui-li-aside"><strong>Publicação: '+dataPublicacao.substring(0, dataPublicacao.length - 6)+'</strong>PM</p></a></li>');
 			}
 			$(string).listview('refresh');
