@@ -33,7 +33,7 @@ var Storage = function(successCallback, errorCallback) {
                     alert('Create table error: ' + error.message);
                 });
         tx.executeSql('DROP TABLE IF EXISTS configs');
-        var sql = "CREATE TABLE IF NOT EXISTS rssfeed ( " +
+        var sql = "CREATE TABLE IF NOT EXISTS configs ( " +
             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "name VARCHAR(200), " +
             "value NUMBER)";

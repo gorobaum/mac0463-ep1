@@ -13,32 +13,32 @@
 			<div data-role="panel" id="mypanel" data-position="left" data-display="overlay">
 			    <fieldset data-role="collapsible" data-theme="a" data-content-theme="d" data-mini="true">
 			        <legend>Categorias</legend>
-			        	<form>
-			        		<label>
-						        <input type="checkbox" name="checkbox-0" data-mini="true">Cultura e artes
-						    </label>
-						    <label>
-						        <input type="checkbox" name="checkbox-0" data-mini="true">Esportes
-						    </label>
-						    <label>
-						        <input type="checkbox" name="checkbox-0" data-mini="true">Evento científico - biológicas
-						    </label>
-						    <label>
-						        <input type="checkbox" name="checkbox-0" data-mini="true">Evento científico - exatas
-						    </label>
-						    <label>
-						        <input type="checkbox" name="checkbox-0" data-mini="true">Evento científico - humanas
-						    </label>
-						    <label>
-						        <input type="checkbox" name="checkbox-0" data-mini="true">Institucional
-						    </label>
-						    <label>
-						        <input type="checkbox" name="checkbox-0" data-mini="true">Outros
-						    </label>
-						</form>
+		        		<label>
+					        <input type="checkbox" name="checkbox-0" id="checkbox-cultura" data-mini="true">Cultura e artes
+					    </label>
+					    <label>
+					        <input type="checkbox" name="checkbox-0" id="checkbox-esportes" data-mini="true">Esportes
+					    </label>
+					    <label>
+					        <input type="checkbox" name="checkbox-0" id="checkbox-eventos" data-mini="true">Evento científico
+					    </label>
+					    <label>
+					        <input type="checkbox" name="checkbox-0" id="checkbox-bio" data-mini="true">Evento científico - biológicas
+					    </label>
+					    <label>
+					        <input type="checkbox" name="checkbox-0" id="checkbox-exatas" data-mini="true">Evento científico - exatas
+					    </label>
+					    <label>
+					        <input type="checkbox" name="checkbox-0" id="checkbox-humanas" data-mini="true">Evento científico - humanas
+					    </label>
+					    <label>
+					        <input type="checkbox" name="checkbox-0" id="checkbox-institucional" data-mini="true">Institucional
+					    </label>
+					    <label>
+					        <input type="checkbox" name="checkbox-0" id="checkbox-outros" data-mini="true">Outros
+					    </label>
 			    </fieldset>
-			    <label for="slider-10">Número padrão de feeds:</label>
-			    <input type="range" name="slider-10" id="slider-10" min="0" max="50" step="5" value="10">
+			    <a href="#" data-rel="close" type="button" data-mini="true" onclick="feeder.saveConfigs()">Salvar Configurações</a>
 			    <a href="#my-header" data-rel="close" type="button" data-mini="true">Close panel</a>
 			</div><!-- /panel -->
 			<header data-role="header">

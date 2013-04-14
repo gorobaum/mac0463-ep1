@@ -29,7 +29,6 @@ var feeder = {
 
 	updateFeeds: function() {
 		var feed = new google.feeds.Feed(feedURL);
-		feed.includeHistoricalEntries();
 		feed.setNumEntries(feedsPuxados);
 		feed.load(function(result) {
 			if (!result.error) {
@@ -71,10 +70,23 @@ var feeder = {
 		});
 	},
 
+	saveConfigs: function() {
+		for (var i = 0; i < listaDeCheckbox.length; i++) {
+			if($("#" + listaDeCheckbox[i]).is(":checked")) {
+				feeder.store.addNewConfig(mapIdsFeeds[listaDeCheckbox[i]], 1);
+				console.log(listaDeCheckbox[i] + "  TRUE");
+			} else {
+				feeder.store.addNewConfig(mapIdsFeeds[listaDeCheckbox[i]], 0);
+				console.log(listaDeCheckbox[i] + "  FALSE");
+			}
+		}
+	},
+
 	initialize: function() {
 		this.store = new Storage();
 		google.load("feeds", "1");
 		google.setOnLoadCallback(feeder.loadFeeds);
+
 		mapFeedsURL["Cultura e artes"] = "cultura-e-artes";
 		mapFeedsURL["Esportes"] = "esportes";
 		mapFeedsURL["Evento científico"] = "evento-cientifico"
@@ -83,13 +95,33 @@ var feeder = {
 		mapFeedsURL["Evento científico – humanas"] = "evento-cientifico-humanas";
 		mapFeedsURL["Institucional"] = "institucional";
 		mapFeedsURL["Outros"] = "outros";
+
+		mapIdsFeeds["checkbox-cultura"] = "Cultura e artes";
+		mapIdsFeeds["checkbox-esportes"] = "Esportes";
+		mapIdsFeeds["checkbox-bio"] = "Evento científico"
+		mapIdsFeeds["checkbox-exatas"] = "Evento científico – biológicas";
+		mapIdsFeeds["checkbox-eventos"] = "Evento científico – exatas";
+		mapIdsFeeds["checkbox-humanas"] = "Evento científico – humanas";
+		mapIdsFeeds["checkbox-institucional"] = "Institucional";
+		mapIdsFeeds["checkbox-outros"] = "Outros";
+
+		listaDeCheckbox.push("checkbox-cultura");
+		listaDeCheckbox.push("checkbox-esportes");
+		listaDeCheckbox.push("checkbox-eventos");
+		listaDeCheckbox.push("checkbox-bio");
+		listaDeCheckbox.push("checkbox-exatas");
+		listaDeCheckbox.push("checkbox-humanas");
+		listaDeCheckbox.push("checkbox-institucional");
+		listaDeCheckbox.push("checkbox-outros");
 	}
 };
 
 var feedsPuxados = 10;
 var tituloDoFeed;
-var feedURL = "http://www.eventos.usp.br/?event-types=institucional,evento-cientifico-biologicas,evento-cientifico,cultura-e-artes,esportes,evento-cientifico-exatas,evento-cientifico-humanas,outros&feed=rss";
+var feedURL = "http://www.eventos.usp.br/?event-types=outros&feed=rss";
 var mapFeedsURL = {};
+var mapIdsFeeds = {};
+var listaDeCheckbox = [];
 app.initialize();
 feeder.initialize();
 window.setInterval(feeder.loadFeeds,30000);
