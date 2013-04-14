@@ -17,6 +17,16 @@ var feeder = {
 		feeder.updateFeeds();
 	},
 
+	updateFeedsURL: function() {
+		feeder.store.refreshConfigs(function(results) {
+			for (var i = 0; i < results.length; i++) {
+				if (results[i].value == 1) {
+
+				}
+			};
+		});
+	},
+
 	updateFeeds: function() {
 		var feed = new google.feeds.Feed(feedURL);
 		feed.includeHistoricalEntries();
@@ -65,12 +75,21 @@ var feeder = {
 		this.store = new Storage();
 		google.load("feeds", "1");
 		google.setOnLoadCallback(feeder.loadFeeds);
+		mapFeedsURL["Cultura e artes"] = "cultura-e-artes";
+		mapFeedsURL["Esportes"] = "esportes";
+		mapFeedsURL["Evento científico"] = "evento-cientifico"
+		mapFeedsURL["Evento científico – biológicas"] = "evento-cientifico-biologicas";
+		mapFeedsURL["Evento científico – exatas"] = "evento-cientifico-exatas";
+		mapFeedsURL["Evento científico – humanas"] = "evento-cientifico-humanas";
+		mapFeedsURL["Institucional"] = "institucional";
+		mapFeedsURL["Outros"] = "outros";
 	}
 };
 
 var feedsPuxados = 10;
 var tituloDoFeed;
-var feedURL = "http://www.eventos.usp.br/?event-types=cultura-e-artes,esportes,evento-cientifico,evento-cientifico-biologicas,evento-cientifico-exatas,evento-cientifico-humanas,institucional,outros&feed=rss";
+var feedURL = "http://www.eventos.usp.br/?event-types=institucional,evento-cientifico-biologicas,evento-cientifico,cultura-e-artes,esportes,evento-cientifico-exatas,evento-cientifico-humanas,outros&feed=rss";
+var mapFeedsURL = {};
 app.initialize();
 feeder.initialize();
 window.setInterval(feeder.loadFeeds,30000);

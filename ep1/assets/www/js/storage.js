@@ -32,6 +32,52 @@ var Storage = function(successCallback, errorCallback) {
                 function(tx, error) {
                     alert('Create table error: ' + error.message);
                 });
+        tx.executeSql('DROP TABLE IF EXISTS configs');
+        var sql = "CREATE TABLE IF NOT EXISTS rssfeed ( " +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "name VARCHAR(200), " +
+            "value NUMBER)";
+        tx.executeSql(sql, null,
+                function() {
+                },
+                function(tx, error) {
+                    alert('Create table error: ' + error.message);
+                });
+    }
+
+    this.addNewConfig = function(name, value) {
+        this.db.transaction(
+            function(tx) {
+                var sql = "INSERT OR REPLACE INTO configs " +
+                    "(name, value) " +
+                    "VALUES (?, ?)";
+
+                tx.executeSql(sql, [name, value],
+                            function() {
+                            },
+                            function(tx, error) {
+                                alert('INSERT error: ' + error.message);
+                            });
+            },
+            function(error) {
+                alert("Transaction Error: " + error.message);
+            }
+        );
+    }
+
+    this.refreshConfigs = function(callback) {
+        this.db.transaction(
+            function(tx) {
+                var sql = "SELECT * " +
+                    "FROM configs";
+                tx.executeSql(sql, function(tx, results) {
+                    callback(results);
+                });
+            },
+            function(error) {
+                alert("Transaction Error: " + error.message);
+            }
+        );
     }
 
     this.addNewFeed = function(feedURL, newFeed) {
