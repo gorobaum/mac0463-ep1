@@ -14,13 +14,17 @@ var feeder = {
 	},
 
 	loadFeeds: function() {
-		feeder.store.refreshConfigs(function(results) {
-			for (i = 0; i < listaDeCheckbox.length; i++) {
-				feedURL = "http://www.eventos.usp.br/?event-types="
-							+ mapFeedsURL[results[i]]
-							+ "&feed=rss";
-							console.log(results[i]);
-				feeder.updateFeeds();
+		feeder.store.refreshConfigs(function(categoriasSalvas) {
+			for (i = 0; i < categoriasSalvas.length; i++) {
+				if (categoriasSalvas[i].value == 1) {
+					$("#"+mapFeedsURL[categoriasSalvas[i].name]).show();
+					feedURL = "http://www.eventos.usp.br/?event-types="
+								+ mapFeedsURL[categoriasSalvas[i].name]
+								+ "&feed=rss";
+					feeder.updateFeeds();
+				} else {
+					$("#"+mapFeedsURL[categoriasSalvas[i].name]).hide();
+				}
 			}
 		});
 	   
@@ -41,7 +45,7 @@ var feeder = {
 								feeder.store.addNewFeed(feedURL, entradaDoFeed, categoriaDoFeed);
 							}
 							if (numeroDeFeeds == (feedAtual+1)) {
-								feeder.removeFeedsOnHtml();
+								feeder.removeFeedsOnHtml(categoriaDoFeed);
 								feeder.putFeedsOnHtml(categoriaDoFeed);
 							}
 						});
@@ -50,21 +54,23 @@ var feeder = {
 		});
 	},
 
-	removeFeedsOnHtml: function() {
-		var myNode = document.getElementById("table-feed");
-		myNode.innerHTML = '';
+	removeFeedsOnHtml: function(categoriaDoFeed) {
+		var myNode = document.getElementById("categoria-"+categoriaDoFeed);
+		if (myNode) {
+			myNode.innerHTML = '';
+		}
 	},
 
 	putFeedsOnHtml: function(categoriaDoFeed) {
 		feeder.store.findByCategory(categoriaDoFeed, function(result) {
-			$("ul").append('<li data-role="divider" data-theme="b">'+categoriaDoFeed+'<span class="ui-li-count">'+result.length+'</span></li>');
 			for (var i = 0; i < result.length; i++) {
 				var entradaDoFeed = result[i];
-				console.log(entradaDoFeed);
 				var dataPublicacao = entradaDoFeed.publishedDate;
-				$("ul").append('<li><a href="'+entradaDoFeed.link+'"><h2>'+entradaDoFeed.title+'</h2><p>'+entradaDoFeed.contentSnippet+'</p><p class="ui-li-aside"><strong>Publicação: '+dataPublicacao.substring(0, dataPublicacao.length - 6)+'</strong>PM</p></a></li>');
+				var string = ".categoria."+mapFeedsURL[categoriaDoFeed];
+				console.log(string);
+				$(string).append('<li><a href="'+entradaDoFeed.link+'"><h2>'+entradaDoFeed.title+'</h2><p>'+entradaDoFeed.contentSnippet+'</p><p class="ui-li-aside"><strong>Publicação: '+dataPublicacao.substring(0, dataPublicacao.length - 6)+'</strong>PM</p></a></li>');
 			}
-			$('ul').listview('refresh');
+			$(string).listview('refresh');
 		});
 	},
 
@@ -72,10 +78,8 @@ var feeder = {
 		for (var i = 0; i < listaDeCheckbox.length; i++) {
 			if($("#" + listaDeCheckbox[i]).is(":checked")) {
 				feeder.store.addNewConfig(mapIdsFeeds[listaDeCheckbox[i]], 1);
-				console.log(listaDeCheckbox[i] + "  TRUE");
 			} else {
 				feeder.store.addNewConfig(mapIdsFeeds[listaDeCheckbox[i]], 0);
-				console.log(listaDeCheckbox[i] + "  FALSE");
 			}
 		}
 	},

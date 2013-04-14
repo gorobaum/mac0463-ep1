@@ -74,9 +74,7 @@ var Storage = function(successCallback, errorCallback) {
                         categorias = [],
                         i = 0;
                     for (; i < len; i = i + 1) {
-                        if (results.rows.item(i).value == 1) {
-                            categorias.push(results.rows.item(i).name);
-                        }
+                        categorias.push(results.rows.item(i));
                     }
                     callback(categorias);
                 });
