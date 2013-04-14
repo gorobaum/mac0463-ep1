@@ -10,21 +10,20 @@ var feeder = {
 
 	loadMoreFeeds: function() {
 		feedsPuxados += 10;
-		this.updateFeeds();
+		this.loadFeeds();
 	},
 
 	loadFeeds: function() {
-		feeder.updateFeeds();
-	},
-
-	updateFeedsURL: function() {
 		feeder.store.refreshConfigs(function(results) {
-			for (var i = 0; i < results.length; i++) {
-				if (results[i].value == 1) {
-
-				}
-			};
+			for (i = 0; i < listaDeCheckbox.length; i++) {
+				feedURL = "http://www.eventos.usp.br/?event-types="
+							+ mapFeedsURL[results[i]]
+							+ "&feed=rss";
+							console.log(results[i]);
+				feeder.updateFeeds();
+			}
 		});
+	   
 	},
 
 	updateFeeds: function() {
@@ -32,22 +31,20 @@ var feeder = {
 		feed.setNumEntries(feedsPuxados);
 		feed.load(function(result) {
 			if (!result.error) {
-				tituloDoFeed = result.feed.title;
-				console.log(result.feed);
 				for (var i = 0; i < result.feed.entries.length; i++) {
 					var entradaDoFeed = result.feed.entries[i];
+					var categoriaDoFeed = result.feed.title.substring(42, result.feed.title.length);
 					var dataPublicacao = entradaDoFeed.publishedDate;
-					feeder.store.findByTitle(entradaDoFeed, result.feed.entries.length, i, 
+					feeder.store.findByTitle(entradaDoFeed, result.feed.entries.length, i, categoriaDoFeed,
 						function(entradaDoFeed, numeroDeFeeds, feedAtual, taNoBanco) {
 							if (!taNoBanco) {
-								feeder.store.addNewFeed(feedURL, entradaDoFeed);
+								feeder.store.addNewFeed(feedURL, entradaDoFeed, categoriaDoFeed);
 							}
 							if (numeroDeFeeds == (feedAtual+1)) {
 								feeder.removeFeedsOnHtml();
-								feeder.putFeedsOnHtml();
+								feeder.putFeedsOnHtml(categoriaDoFeed);
 							}
-						}
-					);
+						});
 				}
 			}
 		});
@@ -58,11 +55,12 @@ var feeder = {
 		myNode.innerHTML = '';
 	},
 
-	putFeedsOnHtml: function() {
-		feeder.store.findByFeedURL(feedURL, function(result) {
-			$("ul").append('<li data-role="divider" data-theme="b">'+tituloDoFeed.substring(0, 39)+'<span class="ui-li-count">'+result.length+'</span></li>');
+	putFeedsOnHtml: function(categoriaDoFeed) {
+		feeder.store.findByCategory(categoriaDoFeed, function(result) {
+			$("ul").append('<li data-role="divider" data-theme="b">'+categoriaDoFeed+'<span class="ui-li-count">'+result.length+'</span></li>');
 			for (var i = 0; i < result.length; i++) {
 				var entradaDoFeed = result[i];
+				console.log(entradaDoFeed);
 				var dataPublicacao = entradaDoFeed.publishedDate;
 				$("ul").append('<li><a href="'+entradaDoFeed.link+'"><h2>'+entradaDoFeed.title+'</h2><p>'+entradaDoFeed.contentSnippet+'</p><p class="ui-li-aside"><strong>Publicação: '+dataPublicacao.substring(0, dataPublicacao.length - 6)+'</strong>PM</p></a></li>');
 			}
@@ -89,7 +87,6 @@ var feeder = {
 
 		mapFeedsURL["Cultura e artes"] = "cultura-e-artes";
 		mapFeedsURL["Esportes"] = "esportes";
-		mapFeedsURL["Evento científico"] = "evento-cientifico"
 		mapFeedsURL["Evento científico – biológicas"] = "evento-cientifico-biologicas";
 		mapFeedsURL["Evento científico – exatas"] = "evento-cientifico-exatas";
 		mapFeedsURL["Evento científico – humanas"] = "evento-cientifico-humanas";
@@ -98,16 +95,14 @@ var feeder = {
 
 		mapIdsFeeds["checkbox-cultura"] = "Cultura e artes";
 		mapIdsFeeds["checkbox-esportes"] = "Esportes";
-		mapIdsFeeds["checkbox-bio"] = "Evento científico"
-		mapIdsFeeds["checkbox-exatas"] = "Evento científico – biológicas";
-		mapIdsFeeds["checkbox-eventos"] = "Evento científico – exatas";
+		mapIdsFeeds["checkbox-bio"] = "Evento científico – biológicas";
+		mapIdsFeeds["checkbox-exatas"] = "Evento científico – exatas";
 		mapIdsFeeds["checkbox-humanas"] = "Evento científico – humanas";
 		mapIdsFeeds["checkbox-institucional"] = "Institucional";
 		mapIdsFeeds["checkbox-outros"] = "Outros";
 
 		listaDeCheckbox.push("checkbox-cultura");
 		listaDeCheckbox.push("checkbox-esportes");
-		listaDeCheckbox.push("checkbox-eventos");
 		listaDeCheckbox.push("checkbox-bio");
 		listaDeCheckbox.push("checkbox-exatas");
 		listaDeCheckbox.push("checkbox-humanas");

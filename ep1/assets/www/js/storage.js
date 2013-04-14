@@ -68,10 +68,17 @@ var Storage = function(successCallback, errorCallback) {
     this.refreshConfigs = function(callback) {
         this.db.transaction(
             function(tx) {
-                var sql = "SELECT * " +
-                    "FROM configs";
-                tx.executeSql(sql, function(tx, results) {
-                    callback(results);
+                var sql = "SELECT * FROM configs";
+                tx.executeSql(sql, [], function(tx, results) {
+                    var len = results.rows.length,
+                        categorias = [],
+                        i = 0;
+                    for (; i < len; i = i + 1) {
+                        if (results.rows.item(i).value == 1) {
+                            categorias.push(results.rows.item(i).name);
+                        }
+                    }
+                    callback(categorias);
                 });
             },
             function(error) {
@@ -80,14 +87,14 @@ var Storage = function(successCallback, errorCallback) {
         );
     }
 
-    this.addNewFeed = function(feedURL, newFeed) {
+    this.addNewFeed = function(feedURL, newFeed, categoriaDoFeed) {
         this.db.transaction(
             function(tx) {
                 var sql = "INSERT OR REPLACE INTO rssfeed " +
                     "(feedURL, link, title, contentSnippet, publishedDate, categorias) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
 
-                tx.executeSql(sql, [feedURL, newFeed.link, newFeed.title, newFeed.contentSnippet, newFeed.publishedDate, newFeed.categorias],
+                tx.executeSql(sql, [feedURL, newFeed.link, newFeed.title, newFeed.contentSnippet, newFeed.publishedDate, categoriaDoFeed],
                             function() {
                             },
                             function(tx, error) {
@@ -100,7 +107,7 @@ var Storage = function(successCallback, errorCallback) {
         );
     }
 
-    this.findByTitle = function(feed, numeroDeFeeds, feedAtual, callback) {
+    this.findByTitle = function(feed, numeroDeFeeds, feedAtual, categoriaDoFeed, callback) {
         this.db.transaction(
             function(tx) {
                 var sql = "SELECT * " +
@@ -108,7 +115,32 @@ var Storage = function(successCallback, errorCallback) {
                     "WHERE title LIKE ? " +
                     "ORDER BY id";
                 tx.executeSql(sql, ['%' + feed.title + '%'], function(tx, results) {
-                    callback(feed, numeroDeFeeds, feedAtual, results.rows.length === 1 ? true : false);
+                    callback(feed, numeroDeFeeds, feedAtual, results.rows.length === 1 ? true : false, categoriaDoFeed);
+                });
+            },
+            function(error) {
+                alert("Transaction Error: " + error.message);
+            }
+        );
+    }
+
+    this.findByCategory = function(categoriaDoFeed, callback) {
+         this.db.transaction(
+            function(tx) {
+
+                var sql = "SELECT * " +
+                    "FROM rssfeed " +
+                    "WHERE categorias LIKE ? " +
+                    "ORDER BY id";
+
+                tx.executeSql(sql, ['%' + categoriaDoFeed + '%'], function(tx, results) {
+                    var len = results.rows.length,
+                        feeds = [],
+                        i = 0;
+                    for (; i < len; i = i + 1) {
+                        feeds[i] = results.rows.item(i);
+                    }
+                    callback(feeds);
                 });
             },
             function(error) {
