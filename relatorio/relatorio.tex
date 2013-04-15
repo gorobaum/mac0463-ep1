@@ -1,0 +1,105 @@
+\documentclass[brazil]{article}
+
+
+% ================================== PACOTES ===================================
+
+\usepackage[brazil]{babel}
+\usepackage{textcomp} % ajuda hifenação
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{hyperref}
+
+\usepackage{fullpage}
+\usepackage{setspace}
+\usepackage{url}
+
+\usepackage{enumerate}
+
+% incrementando o espaçamento entre parágrafos (o padrão é 0, estamos
+% adicionando uma linha vazia)
+\addtolength{\parskip}{\baselineskip}
+
+% Inicio -----------------------------------------------------------------------
+
+\begin{document}
+\title{MAC0463/5743 Computação Móvel\\\medskip
+    Relatório -- EP1}
+\author{Samuel Plaça de Paula
+        \and Thiago de Gouveia Nunes}
+\date{Universidade de São Paulo, abril de 2013}
+
+\maketitle
+\pagestyle{plain}
+\footskip=25pt
+
+% Resumo -----------------------------------------------------------------------
+
+\begin{abstract}
+    Neste documento damos uma visão geral sobre a aplicação criada para o
+    primeiro exercício-programa da disciplina de Computação Móvel do IME-USP
+    no primeiro semestre de 2013\footnotemark[1].
+    Trata-se de um visualizador de \emph{feeds}
+    RSS de notícias da USP -- no caso, o serviço de divulgação por nós
+    escolhido foi o USP Eventos\footnotemark[2].
+    Discutimos aqui brevemente a justificativa para a criação da aplicação,
+    as características do sistema produzido e sua implementação.
+\end{abstract}
+
+\footnotetext[1]{Mais informações em
+\url{http://grenoble.ime.usp.br/~gold/cursos/2013/movel/}}
+
+\footnotetext[2]{Acessível em \url{http://www.eventos.usp.br/}}
+
+%------------------------------------------------------------------------------
+
+\section{Motivação}
+% Apresentar brevemente as razões que os levaram a implementar o app.
+% Descreva a situação-problema a qual o app está relacionado bem como a
+% justificativa para sua criação.
+Estar na USP significa ter ao alcance coisas como uma ótima formação,
+excelentes bibliotecas, contato com professores e colegas competentes, etc.
+Mas significa também estar inserido em um ecossistema que oferece esportes,
+concertos, conferências, palestras, enfim, muito mais do que abrangem os
+elementos formais de um curso.
+
+É comum encontrar alunos que não desfrutam nem de uma fração disso, geralmente
+por falta de conhecimento -- às vezes em decorrência de preguiça de buscar
+informações. Essas pessoas apenas vão para a faculdade, assistem a suas aulas,
+usam computadores e biblioteca para realização de estudo e trabalhos, e voltam
+para casa. Trata-se de algo bastante negativo, visto que a universidade oferece
+tanto mais, e que é desejável para todos os envolvidos que mais pessoas
+participem do diálogo promovido pelos eventos realizados na USP.
+
+O USP Eventos serve como
+meio de divulgação dos eventos que acontecem na universidade, como palestras,
+concertos, sessões de cinema, debates, etc. No entanto, ao
+menos vendo o exemplo de nossos colegas, não parece que uma parcela
+significativa da comunidade universitária usa esse serviço.
+Desenvolver um aplicativo que se proponha a oferecer tais informações de
+maneira mais cômoda e próxima do usuário, através do uso de dispositivos
+móveis, é uma tentativa de colaborar para que muito mais pessoas passem a
+acompanhar esse rico aspecto do dia-a-dia da universidade.
+
+%------------------------------------------------------------------------------
+
+\section{Descrição}
+% Apresentar as funcionalidades do App sob o ponto de vista do usuário.
+% A descrição deve ser orientada pelas telas do app e seu fluxo. O estilo
+% "Manual de Usuário" é adequado a esta seção, apresentando as funcionalidades
+% de cada tela e os passos necessários ao uso de cada funcionalidade
+% disponibilizada.
+
+%------------------------------------------------------------------------------
+
+\section{Implementação}
+% Apresentar a estrutura geral da implementação do app e partes significativas
+% do funcionamento do código, caso necessário, evidenciando o trabalho de
+% vocês sob o ponto de vista do desenvolvedor. Aqui um diagrama facilita
+% bastante a compreensão (mesmo que informal).
+
+%------------------------------------------------------------------------------
+
+\section{Conclusões}
+% Apresentar sucintamente suas constatações sobre o processo de aprendizado e
+% desenvolvimento do app.
+
+\end{document}
