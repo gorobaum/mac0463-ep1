@@ -41,9 +41,6 @@ var feeder = {
 	},
 
 	updateFeeds: function() {
-		if (!feeder.checkConnection()) {
-			return;
-		}
 		var feed = new google.feeds.Feed(feedURL);
 		feed.setNumEntries(feedsPuxados);
 		feed.load(function(result) {
