@@ -87,6 +87,26 @@ acompanhar esse rico aspecto do dia-a-dia da universidade.
 % "Manual de Usuário" é adequado a esta seção, apresentando as funcionalidades
 % de cada tela e os passos necessários ao uso de cada funcionalidade
 % disponibilizada.
+O app tem um visual bastante direto. Quase todo o corpo se destina à exibição
+dos feeds recuperados. Os feeds são separados de acordo com suas categorias
+e agrupados sob listas colapsadas que podem ser estendidas ao tocar-se
+na barra contendo o nome da categoria. Para cada feed, são exibidos seu título
+e primeiros caracteres da notícia. Toda a linha é um link para a notícia
+original.
+
+Na parte superior, há um botão à esquerda e outro à direita.
+
+O botão da esquerda é o ``+ Feeds'', que se destina a carregar um número maior
+de feeds (o padrão é 10). Os feeds assim carregados podem ser
+tanto mais antigos que os já presentes no sistema, quanto mais novos, isto é,
+feeds que o USP Eventos subiu desde a última verificação feita pelo
+app.
+
+O botão à direita é o ``Configurações'', que abre um menu em que se podem
+selecionar os feeds que o usuário deseja ver. Ao marcar as categorias
+desejadas e tocar ``salvar configurações'', o programa recarrega os feeds
+apenas das categorias desejadas, buscando novos feeds dessas categorias se
+possível.
 
 %------------------------------------------------------------------------------
 
@@ -95,11 +115,59 @@ acompanhar esse rico aspecto do dia-a-dia da universidade.
 % do funcionamento do código, caso necessário, evidenciando o trabalho de
 % vocês sob o ponto de vista do desenvolvedor. Aqui um diagrama facilita
 % bastante a compreensão (mesmo que informal).
+Para controlar o comportamento das páginas, usamos o framework jQuery Mobile.
+Usamos Web SQL para criar um BD com os dados dos feeds recuperados.
+Para ler os feeds, usamos o Google JSAPI.
+
+O app desenvolvido consiste principalmente dos módulos \texttt{feeder.js} e
+\texttt{storage.js}.
+
+O primeiro é o que define o comportamento do objeto \texttt{feeder}, que
+recupera e exibe os feeds. Ele inicializa as variáveis necessárias e
+mantém o app funcionando via uma chamada a
+\texttt{setInterval}, que executa a função \texttt{loadFeeds}, a ser descrita
+adiante, a cada 30
+segundos. Além disso, sempre que uma nova configuração de tipos de feeds
+desejados é salva, também é chamada \texttt{loadFeeds}.
+
+Já em \texttt{storage.js} define-se uma classe \texttt{Storage}, que é um
+gerenciador de BD. O \texttt{feeder} possui uma instância de \texttt{Storage}
+(chamada \texttt{store}), que usa para criar e manter o BD com os dados dos
+feeds.
+
+A função de \texttt{loadFeeds} é atualizar a visualização de feeds com as
+configurações atuais de categorias desejadas. Ela chama uma função do
+\texttt{Storage} que obtém as categorias de feeds presentes no BD e termina
+chamando uma função (anônima, passada como o parâmetro \texttt{callback}) que
+para cada categoria verifica se esta está sendo requisitada pelo usuário
+(isto é, marcada na checklist). Em caso afirmativo, mostra os feeds dessa
+categoria já armazenados e tenta obter novos feeds dessa categoria; em caso
+negativo, esconde os feeds dessa categoria que estão armazenados.
 
 %------------------------------------------------------------------------------
 
 \section{Conclusões}
 % Apresentar sucintamente suas constatações sobre o processo de aprendizado e
 % desenvolvimento do app.
+Um aprendizado que tivemos com esse EP é que certamente o desenvolvimento de
+um programa para dispositivos móveis demanda mais preocupações do que uma
+aplicação para notebooks ou desktops, por exemplo. Mesmo tratando-se de um
+app bastante simples, o fato de precisarmos guardar informações para que o
+usuário as possa acessar sem necessidade de conexão o tempo todo é o que
+representa a maior parte da complexidade desse sistema tão simples.
+
+Outro desafio adicionado pelo fato de nosso alvo serem os dispositivos móveis
+é que a conformidade de comportamento é menos garantida do que suspeitávamos.
+Mesmo num ambiente em que tudo parecia extremamente multiplataforma e
+``seguro'' (HTML5 + JavaScript + CSS3, apenas com o PhoneGap fazendo a
+intermediação necessária para cada plataforma), chegamos a observar divergência
+de comportamento entre dois aparelhos com Android -- em certo ponto do
+desenvolvimento, um deles apresentava
+um erro que apareceu tão misteriosamente quanto depois sumiu, sem que
+descobríssemos o motivo.
+
+Por fim, vale ressaltar que os membros deste grupo possuíam pouco ou nenhum
+conhecimento sobre JavaScript, de modo que o aprendizado acabou indo um pouco
+além do escopo da disciplina de Computação Móvel.
 
 \end{document}
