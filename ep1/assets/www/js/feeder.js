@@ -66,7 +66,8 @@ var feeder = {
 	},
 
 	removeFeedsOnHtml: function(categoriaDoFeed) {
-		var myNode = document.getElementById("categoria-"+categoriaDoFeed);
+		var myNode = document.getElementsByClassName("categoria "+mapFeedsURL[categoriaDoFeed])[0];
+		console.log(myNode);
 		if (myNode) {
 			myNode.innerHTML = '';
 		}
@@ -92,6 +93,7 @@ var feeder = {
 				feeder.store.addNewConfig(mapIdsFeeds[listaDeCheckbox[i]], 0);
 			}
 		}
+		feeder.loadFeeds();
 	},
 
 	initialize: function() {
