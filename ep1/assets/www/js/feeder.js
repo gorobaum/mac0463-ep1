@@ -22,7 +22,7 @@ var feeder = {
 					$("#"+mapFeedsURL[categoriasSalvas[i].name]).show();
 					feedURL = "http://www.eventos.usp.br/?event-types="
 								+ mapFeedsURL[categoriasSalvas[i].name]
-								+ "&feed=rss";
+								+ "&feed=rss2";
 					feeder.updateFeeds();
 				} else {
 					$("#"+mapFeedsURL[categoriasSalvas[i].name]).hide();
@@ -33,15 +33,17 @@ var feeder = {
 					$("#"+mapFeedsURL[mapIdsFeeds[listaDeCheckbox[i]]]).show();
 					feedURL = "http://www.eventos.usp.br/?event-types="
 					       + mapFeedsURL[mapIdsFeeds[listaDeCheckbox[i]]]
-					       + "&feed=rss";
+					       + "&feed=rss2";
 					feeder.updateFeeds();
 				}
 			}
 		});
-	   
 	},
 
 	updateFeeds: function() {
+		if (!feeder.checkConnection()) {
+			return;
+		}
 		var feed = new google.feeds.Feed(feedURL);
 		feed.setNumEntries(feedsPuxados);
 		feed.load(function(result) {
@@ -67,7 +69,6 @@ var feeder = {
 
 	removeFeedsOnHtml: function(categoriaDoFeed) {
 		var myNode = document.getElementsByClassName("categoria "+mapFeedsURL[categoriaDoFeed])[0];
-		console.log(myNode);
 		if (myNode) {
 			myNode.innerHTML = '';
 		}
@@ -129,10 +130,11 @@ var feeder = {
 
 var feedsPuxados = 10;
 var tituloDoFeed;
-var feedURL = "http://www.eventos.usp.br/?event-types=outros&feed=rss";
+var feedURL;
 var mapFeedsURL = {};
 var mapIdsFeeds = {};
 var listaDeCheckbox = [];
-app.initialize();
-feeder.initialize();
-window.setInterval(feeder.loadFeeds,30000);
+	app.initialize();
+	feeder.initialize();
+	window.setInterval(feeder.loadFeeds,30000);
+

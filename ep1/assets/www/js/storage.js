@@ -2,7 +2,7 @@ var Storage = function(successCallback, errorCallback) {
 
     this.initializeDatabase = function(successCallback, errorCallback) {
         var self = this;
-        this.db = window.openDatabase("RSSFeedDB", "1.0", "RSS Feed DB", 200000);
+        this.db = window.openDatabase("RSSFeedDB", "1.0", "RSS Feed DB", 20000000);
         this.db.transaction(
                 function(tx) {
                     self.createTable(tx);
